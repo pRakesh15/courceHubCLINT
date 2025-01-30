@@ -9,28 +9,50 @@ import {
   Button,
   VStack,
   HStack,
-  Input
+  Input,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { RiDashboardFill, RiLogoutBoxRLine, RiMenu5Fill } from "react-icons/ri";
-const Naviigation = ({ url = "/", title = "Home",onClick }) => (
+import { useDispatch } from "react-redux";
+import { logOutUser } from "../../redux/actions/userAction";
+const Naviigation = ({ url = "/", title = "Home", onClick }) => (
   <Link to={url} onClick={onClick}>
-    <Button  variant="ghost">{title}</Button>
+    <Button variant="ghost">{title}</Button>
   </Link>
 );
 
-const Navbar = () => {
-  const isAuthantiate = false;
-  const user={
-    role:"user",
-  }
+const Navbar = ({ isAuthantiate, user }) => {
+  const dispatch = useDispatch();
+  // const isAuthantiate = false;
+  // const user={
+  //   role:"user",
+  // }
+
+  //CALL THE USER STATE FROM REDUX TO ...
+
+  const logoutHandler = () => {
+    dispatch(logOutUser());
+    onClose();
+  };
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [keyWord,setKeyWord]=useState('');
+  const [keyWord, setKeyWord] = useState("");
   return (
     <div className="bg-[#F0E8FF] w-full h-14 flex items-center justify-between p-4 drop-shadow-md">
-      <div className="text-xl font-semibold text-gray-700"><Link to="/">COURSEHUB</Link></div>
-      <Input value={keyWord} onChange={e=>setKeyWord(e.target.value)} placeholder='Search for anything' type='text' focusBorderColor='black' border={'1px solid green'} w={'90vh'} justifyContent={'center'}/>
+      <div className="text-xl font-semibold text-gray-700">
+        <Link to="/">COURSEHUB</Link>
+      </div>
+      <Input
+        value={keyWord}
+        onChange={(e) => setKeyWord(e.target.value)}
+        placeholder="Search for anything"
+        type="text"
+        focusBorderColor="black"
+        border={"1px solid green"}
+        w={"90vh"}
+        justifyContent={"center"}
+      />
       <div>
         <Link to="/login">
           <button className="font-semibold text-[18px]">
@@ -49,8 +71,16 @@ const Navbar = () => {
             <DrawerBody>
               <VStack spacing={"4"} alignItems={"flex-end"}>
                 <Naviigation onClick={onClose} url="/" title="Home" />
-                <Naviigation onClick={onClose} url="/courses" title="Browse All Courses" />
-                <Naviigation onClick={onClose} url="/contact" title="Contsct Us" />
+                <Naviigation
+                  onClick={onClose}
+                  url="/courses"
+                  title="Browse All Courses"
+                />
+                <Naviigation
+                  onClick={onClose}
+                  url="/contact"
+                  title="Contsct Us"
+                />
                 <Naviigation onClick={onClose} url="/about" title="About" />
 
                 <HStack
@@ -63,34 +93,54 @@ const Navbar = () => {
                     <>
                       <VStack>
                         <HStack>
-                          <Button onClick={onClose} colorScheme="red" variant={"ghost"}>
-                          <RiLogoutBoxRLine className="m-1"/>
-                          LogOut</Button>
+                          <Button
+                            onClick={logoutHandler}
+                            colorScheme="red"
+                            variant={"ghost"}
+                          >
+                            <RiLogoutBoxRLine className="m-1" />
+                            LogOut
+                          </Button>
 
                           <p className="font-bold">OR</p>
 
                           <Link to="/profile">
-                            <Button onClick={onClose} colorScheme="green" variant={"ghost"}>Profile</Button>
+                            <Button
+                              onClick={onClose}
+                              colorScheme="green"
+                              variant={"ghost"}
+                            >
+                              Profile
+                            </Button>
                           </Link>
                         </HStack>
-                        {
-                          user && user.role==="admin" && <Link to="/admin/dasbord">
-                          <Button onClick={onClose} colorScheme="purple" variant={"ghost"}>
-                          <RiDashboardFill className="m-1"/>
-                          Dashboard</Button>
+                        {user && user.role === "admin" && (
+                          <Link to="/admin/dasbord">
+                            <Button
+                              onClick={onClose}
+                              colorScheme="purple"
+                              variant={"ghost"}
+                            >
+                              <RiDashboardFill className="m-1" />
+                              Dashboard
+                            </Button>
                           </Link>
-                        }
+                        )}
                       </VStack>
                     </>
                   ) : (
                     <>
                       <Link to="/login">
-                        <Button onClick={onClose} colorScheme="green">Login</Button>
+                        <Button onClick={onClose} colorScheme="green">
+                          Login
+                        </Button>
                       </Link>
                       <p>OR</p>
 
                       <Link to="/SignUp">
-                        <Button onClick={onClose} colorScheme="green">SignUp</Button>
+                        <Button onClick={onClose} colorScheme="green">
+                          SignUp
+                        </Button>
                       </Link>
                     </>
                   )}

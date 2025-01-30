@@ -13,10 +13,16 @@ import {
 import React, { useRef, useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { RiDeleteBin7Fill } from "react-icons/ri";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Profile = () => {
-  const [imgprev,setImgprev]=useState('');
+
+  const { user } = useSelector(
+    (state) => state.user
+  );
+
+  const [imgprev, setImgprev] = useState(user?.avatar?.url || "");
   const [image,setImage]=useState('');
   const inputRef = useRef(null);
   //function for chose photos from file...
@@ -38,23 +44,10 @@ const Profile = () => {
   // console.log({image})
   
 
-  const user = {
-    name: "Rakes Pradhan",
-    age: 23,
-    email: "rp5865442@gmail.com",
-    createdAt: String(new Date().toISOString()),
-    role: "admin",
-    subscription: {
-      status: "active",
-    },
-    playlist: [
-      {
-        course: "reactPlaylist",
-        poster:
-          "https://static.codingforentrepreneurs.com/media/series/try-reactjs-2021/2243f98a-474f-4f49-a9ff-b533c712b66e.jpg",
-      },
-    ],
-  };
+
+
+
+  // console.log(user)
 
   const removeCourseHandler = (id) => {
     console.log(id);
@@ -91,19 +84,19 @@ const Profile = () => {
         <VStack spacing={4} alignItems={["center", "flex-start"]}>
           <HStack>
             <Text children="Name" fontWeight={"bold"} />
-            <Text children={user.name} />
+            <Text children={user?.name} />
           </HStack>
           <HStack>
             <Text children="Email" fontWeight={"bold"} />
-            <Text children={user.email} />
+            <Text children={user?.email} />
           </HStack>
           <HStack>
             <Text children="CreatedAt" fontWeight={"bold"} />
-            <Text children={user.createdAt.split("T")[0]} />
+            <Text children={user?.creaatedAt.split("T")[0]} />
           </HStack>
           {
             <HStack>
-              {user.subscription.status === "active" ? (
+              {user?.subscription?.status === "active" ? (
                 <Button color="red">Cancel Subscription</Button>
               ) : (
                 <Link to="/subscribe">

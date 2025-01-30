@@ -8,39 +8,24 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { loginUser, server } from "../../redux/reducers/userReducer.js";
-import axios from "axios";
+import { loginUser } from "../../redux/actions/userAction.js";
+
 
 const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const item = useSelector((state) => state);
+  const item = useSelector((state) => state.user);
+
+  // console.log(item);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(loginUser({email,password}));
+    dispatch(loginUser({ email, password }));
   };
-
-  // const loginFunction = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const { data } = await axios.post(
-  //       `${server}/LoginUser`,
-  //       { email: email, password: password },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         withCredentials: true,
-  //       }
-  //     );
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <Container h={"80vh"} display={"flex"} justifyContent={"center"} mt={10}>
@@ -82,8 +67,10 @@ const Login = () => {
             backgroundColor={"green"}
             p={6}
             borderRadius={0}
+            isDisabled={item.isLoading}
+            isLoading={item.isLoading}
           >
-            Log in
+           Login
           </Button>
         </form>
         <Box color={"black"}>
