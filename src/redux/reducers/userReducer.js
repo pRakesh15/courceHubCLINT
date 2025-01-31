@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMyProfile, loginUser, logOutUser } from "../actions/userAction";
+import { changePassword, getMyProfile, loginUser, logOutUser, registerUser, updateNameEmail } from "../actions/userAction";
 
-// export const server = "https://coursehubserver.onrender.com/api/v1";
-export const server = "http://localhost:8090/api/v1";
+
 //declare a initialState  for the user slice  
 const initialState = {
   isLoading: false,
@@ -78,7 +77,68 @@ const userDetailSlice = createSlice ({
         state.user = action.payload.user;
         state.error = action.payload;
         state.message = null;
-      });
+      })
+
+      //this is for store the data in store after  user register
+
+      .addCase(registerUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.error = null;
+        state.message = action.payload.message;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+        state.error = action.payload;
+        state.message = null;
+      })
+
+      //this is for store new date in state after  update the user
+
+      .addCase(updateNameEmail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateNameEmail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.error = null;
+        state.message = action.payload.message;
+      })
+      .addCase(updateNameEmail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.error = action.payload;
+        state.message = null;
+      })
+
+      //slice for change the password and return the user...
+
+      .addCase(changePassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.error = null;
+        state.message = action.payload.message;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.error = action.payload;
+        state.message = null;
+      })
+
   },
 });
 

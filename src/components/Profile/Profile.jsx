@@ -117,14 +117,14 @@ const Profile = () => {
         </VStack>
       </Stack>
       <Heading children={"Playlist"} size={"md"} my={8} />
-      {user.playlist.length > 0 && (
+      {user?.playlist.length > 0 && (
         <Stack
           direction={["column", "row"]}
           alignItems={"center"}
           flexWrap={"wrap"}
           p={4}
         >
-          {user.playlist.map((element, index) => (
+          {user?.playlist.map((element, index) => (
             <VStack w={48} m={2} key={index}>
               <Image
                 boxSize={"full"}

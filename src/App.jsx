@@ -26,6 +26,10 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { getMyProfile } from "./redux/actions/userAction";
 // import ProtectedRout from "./utils/ProtectedRout";
+
+// export const server = "https://coursehubserver.onrender.com/api/v1";
+export const server = "http://localhost:8090/api/v1";
+
 const App = () => {
   const dispatch = useDispatch();
 
@@ -42,9 +46,10 @@ const App = () => {
   useEffect(() => {
     dispatch(getMyProfile());
   }, [dispatch]);
-
+  
+  //here the concept is there is a initial state when the state is change in Redux store the message or error is change when the message or error is change there is a toast start 
   useEffect(() => {
-    if (error) {
+    if (error!=null) {
       toast.error(error.message);
     }
     if (message) {
@@ -57,8 +62,7 @@ const App = () => {
       <Navbar isAuthantiate={isAuthenticated} user={user} />
       <Routes>
         <Route path="/login"  element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect={"/profile"}><Login /></ProtectedRoute>} />
-
-        <Route path="/Signup" exact element={<Signup />} />
+        <Route path="/SignUp"  element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect={"/profile"}><Signup /></ProtectedRoute>} />
         <Route path="/" exact element={<Home />} />
         <Route path="/contact" exact element={<Contactpg />} />
         <Route path="/about" exact element={<About />} />
