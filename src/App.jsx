@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import {ProtectedRoute} from "protected-route-react"
+import { ProtectedRoute } from "protected-route-react";
 import Home from "./components/layouts/Home";
 import Navbar from "./components/layouts/Navbar";
 import Courses from "./components/Courses/Courses";
@@ -46,10 +46,10 @@ const App = () => {
   useEffect(() => {
     dispatch(getMyProfile());
   }, [dispatch]);
-  
-  //here the concept is there is a initial state when the state is change in Redux store the message or error is change when the message or error is change there is a toast start 
+
+  //here the concept is there is a initial state when the state is change in Redux store the message or error is change when the message or error is change there is a toast start
   useEffect(() => {
-    if (error!=null) {
+    if (error != null) {
       toast.error(error.message);
     }
     if (message) {
@@ -61,8 +61,28 @@ const App = () => {
     <>
       <Navbar isAuthantiate={isAuthenticated} user={user} />
       <Routes>
-        <Route path="/login"  element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect={"/profile"}><Login /></ProtectedRoute>} />
-        <Route path="/SignUp"  element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect={"/profile"}><Signup /></ProtectedRoute>} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRoute
+              isAuthenticated={!isAuthenticated}
+              redirect={"/profile"}
+            >
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/SignUp"
+          element={
+            <ProtectedRoute
+              isAuthenticated={!isAuthenticated}
+              redirect={"/profile"}
+            >
+              <Signup />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/" exact element={<Home />} />
         <Route path="/contact" exact element={<Contactpg />} />
         <Route path="/about" exact element={<About />} />
@@ -70,7 +90,7 @@ const App = () => {
         <Route path="/course/:id" exact element={<Course />} />
 
         {/* protecting the user routs */}
-        <Route element={<ProtectedRoute isAuthenticated={isAuthenticated}/>}>
+        <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
           <Route path="/forgotPassword" exact element={<Fpassword />} />
           <Route path="/profile" exact element={<Profile />} />
           <Route path="/changePassword" exact element={<ChangePassword />} />
@@ -82,11 +102,12 @@ const App = () => {
         <Route path="/*" exact element={<NoteFound />} />
 
         {/*AdminRouts*/}
-
-        <Route path="/admin/dasbord" exact element={<Dashboard />} />
-        <Route path="/admin/createcourse" exact element={<CreateCourse />} />
-        <Route path="/admin/courses" exact element={<AdminCourse />} />
-        <Route path="/admin/users" exact element={<Users />} />
+        <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true}  isAdmin={user && user.role==="admin"}/>}>
+          <Route path="/admin/dasbord" exact element={<Dashboard />} />
+          <Route path="/admin/createcourse" exact element={<CreateCourse />} />
+          <Route path="/admin/courses" exact element={<AdminCourse />} />
+          <Route path="/admin/users" exact element={<Users />} />
+        </Route>
       </Routes>
       <Footer />
     </>
