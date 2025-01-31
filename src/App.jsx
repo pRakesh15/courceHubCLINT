@@ -27,8 +27,8 @@ import toast from "react-hot-toast";
 import { getMyProfile } from "./redux/actions/userAction";
 // import ProtectedRout from "./utils/ProtectedRout";
 
-// export const server = "https://coursehubserver.onrender.com/api/v1";
-export const server = "http://localhost:8090/api/v1";
+export const server = "https://coursehubserver.onrender.com/api/v1";
+// export const server = "http://localhost:8090/api/v1";
 
 const App = () => {
   const dispatch = useDispatch();
